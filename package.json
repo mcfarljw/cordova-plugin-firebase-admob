@@ -1,0 +1,22 @@
+{
+  "name": "cordova-plugin-firebase-admob",
+  "version": "0.1.0",
+  "description": "A cordova plugin for Firebase Admob.",
+  "author": "Joshua McFarland",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcfarljw/cordova-plugin-firebase-admob"
+  },
+  "keywords": [
+    "cordova",
+    "firebase",
+    "admob"
+  ],
+  "cordova": {
+    "id": "cordova-plugin-firebase-admob",
+    "platforms": [
+      "android"
+    ]
+  }
+}
