@@ -18,7 +18,7 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
     private static final String PLUGIN_NAME = "FirebaseAdmobPlugin";
 
     private InterstitialAd mInterstitialAd;
-    private JSONArray mTestDevices;
+    private JSONArray mTestDeviceIds;
 
 
     @Override
@@ -58,7 +58,7 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
     private void admobAddTestDevice(final JSONArray deviceIds) {
         try {
             for (int i = 0; i < deviceIds.length(); i++) {
-                mTestDevices.put(deviceIds.getString(i));
+                mTestDeviceIds.put(deviceIds.getString(i));
             }
         } catch (JSONException error) {
             Log.e(PLUGIN_NAME, error.getMessage());
@@ -74,6 +74,8 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
     }
 
     private void admobRequestNewInterstitial() {
+        final JSONArray deviceIds = mTestDeviceIds;
+
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 AdRequest.Builder adRequest = new AdRequest.Builder();
@@ -81,8 +83,8 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
                 adRequest.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 
                 try {
-                    for (int i = 0; i < mTestDevices.length(); i++) {
-                        adRequest.addTestDevice(mTestDevices.getString(0));
+                    for (int i = 0; i < deviceIds.length(); i++) {
+                        adRequest.addTestDevice(deviceIds.getString(0));
                     }
                 } catch (JSONException error) {
                     Log.e(PLUGIN_NAME, error.getMessage());
