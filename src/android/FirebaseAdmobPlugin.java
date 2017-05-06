@@ -74,8 +74,6 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
     }
 
     private void admobRequestNewInterstitial() {
-        final JSONArray deviceIds = mTestDeviceIds;
-
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 AdRequest.Builder adRequest = new AdRequest.Builder();
@@ -83,8 +81,12 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
                 adRequest.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 
                 try {
-                    for (int i = 0; i < deviceIds.length(); i++) {
-                        adRequest.addTestDevice(deviceIds.getString(0));
+                    if (mTestDeviceIds != null) {
+                        for (int i = 0; i < mTestDeviceIds.length(); i++) {
+                            adRequest.addTestDevice(mTestDeviceIds.getString(0));
+                        }
+                    } else {
+                        Log.e(PLUGIN_NAME, "No test devices founds.");
                     }
                 } catch (JSONException error) {
                     Log.e(PLUGIN_NAME, error.getMessage());
