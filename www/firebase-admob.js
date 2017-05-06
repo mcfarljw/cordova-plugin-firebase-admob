@@ -1,14 +1,10 @@
 var exec = require('cordova/exec');
 
-function arrify(value) {
-  return Array.isArray(value) ? value : [value];
-}
-
 module.exports = {
-  addTestDevice: function(deviceIds) {
+  addTestDevice: function(deviceId) {
     return new Promise(
       function(resolve, reject) {
-        exec(resolve, reject, 'FirebaseAdmobPlugin', 'addTestDevice', [arrify(deviceIds)]);
+        exec(resolve, reject, 'FirebaseAdmobPlugin', 'addTestDevice', [deviceId]);
       }
     );
   },

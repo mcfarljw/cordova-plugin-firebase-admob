@@ -20,17 +20,17 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
     private InterstitialAd mInterstitialAd;
     private JSONArray mTestDeviceIds;
 
-
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         mInterstitialAd = new InterstitialAd(cordova.getActivity());
+        mTestDeviceIds = new JSONArray();
     }
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if ("addTestDevice".equals(action)) {
-            admobAddTestDevice(args.getJSONArray(0));
+            admobAddTestDevice(args.getString(0));
             callbackContext.success(admobGetTestDevices());
             return true;
         }
@@ -55,14 +55,8 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
         return false;
     }
 
-    private void admobAddTestDevice(final JSONArray deviceIds) {
-        try {
-            for (int i = 0; i < deviceIds.length(); i++) {
-                mTestDeviceIds.put(deviceIds.getString(i));
-            }
-        } catch (JSONException error) {
-            Log.e(PLUGIN_NAME, error.getMessage());
-        }
+    private void admobAddTestDevice(final String deviceId) {
+        mTestDeviceIds.put(deviceId);
     }
 
     private Boolean admobCanRequestNewAd() {
@@ -76,17 +70,12 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
     private void admobRequestNewInterstitial() {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                AdRequest.Builder adRequest = new AdRequest.Builder();
-
-                adRequest.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+                AdRequest.Builder adRequest = new AdRequest.Builder()
+                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 
                 try {
-                    if (mTestDeviceIds != null) {
-                        for (int i = 0; i < mTestDeviceIds.length(); i++) {
-                            adRequest.addTestDevice(mTestDeviceIds.getString(0));
-                        }
-                    } else {
-                        Log.e(PLUGIN_NAME, "No test devices founds.");
+                    for (int i = 0; i < mTestDeviceIds.length(); i++) {
+                        adRequest.addTestDevice(mTestDeviceIds.getString(0));
                     }
                 } catch (JSONException error) {
                     Log.e(PLUGIN_NAME, error.getMessage());
