@@ -75,7 +75,7 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
 
                 try {
                     for (int i = 0; i < mTestDeviceIds.length(); i++) {
-                        adRequest.addTestDevice(mTestDeviceIds.getString(0));
+                        adRequest.addTestDevice(mTestDeviceIds.getString(i));
                     }
                 } catch (JSONException error) {
                     Log.e(PLUGIN_NAME, error.getMessage());
