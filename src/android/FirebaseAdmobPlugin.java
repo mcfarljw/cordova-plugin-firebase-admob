@@ -1,5 +1,7 @@
 package com.jernung.plugins.firebase.admob;
 
+import android.util.Log;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -16,6 +18,8 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
     private static final String PLUGIN_NAME = "FirebaseAdmobPlugin";
 
     private InterstitialAd mInterstitialAd;
+    private JSONArray mTestDevices;
+
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -25,6 +29,15 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if ("addTestDevice".equals(action)) {
+            admobAddTestDevice(args.getJSONArray(0));
+            callbackContext.success(admobGetTestDevices());
+            return true;
+        }
+        if ("getTestDevices".equals(action)) {
+            callbackContext.success(admobGetTestDevices());
+            return true;
+        }
         if ("requestInterstitial".equals(action)) {
             admobRequestNewInterstitial();
             return true;
@@ -42,21 +55,41 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
         return false;
     }
 
+    private void admobAddTestDevice(final JSONArray deviceIds) {
+        try {
+            for (int i = 0; i < deviceIds.length(); i++) {
+                mTestDevices.put(deviceIds.getString(i));
+            }
+        } catch (JSONException error) {
+            Log.e(PLUGIN_NAME, error.getMessage());
+        }
+    }
+
     private Boolean admobCanRequestNewAd() {
         return !mInterstitialAd.isLoaded() && !mInterstitialAd.isLoading();
+    }
+
+    private JSONArray admobGetTestDevices() {
+        return mTestDevices;
     }
 
     private void admobRequestNewInterstitial() {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                AdRequest adRequest = new AdRequest.Builder()
-                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                        .addTestDevice("1FDC9A41C4D572E23F89019DAF62C95E")
-                        .addTestDevice("9514505C5ED1E879B831750FFE7C14A4")
-                        .build();
+                AdRequest.Builder adRequest = new AdRequest.Builder();
+
+                adRequest.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+
+                try {
+                    for (int i = 0; i < mTestDevices.length(); i++) {
+                        adRequest.addTestDevice(mTestDevices.getString(0));
+                    }
+                } catch (JSONException error) {
+                    Log.e(PLUGIN_NAME, error.getMessage());
+                }
 
                 if (admobCanRequestNewAd()) {
-                    mInterstitialAd.loadAd(adRequest);
+                    mInterstitialAd.loadAd(adRequest.build());
                 }
             }
         });
