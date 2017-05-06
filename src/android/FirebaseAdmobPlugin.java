@@ -70,7 +70,7 @@ public class FirebaseAdmobPlugin extends CordovaPlugin {
     }
 
     private JSONArray admobGetTestDevices() {
-        return mTestDevices;
+        return mTestDeviceIds;
     }
 
     private void admobRequestNewInterstitial() {
