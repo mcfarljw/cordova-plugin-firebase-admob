@@ -32,7 +32,7 @@
       <uses-permission android:name="android.permission.WAKE_LOCK" />
     </config-file>
 
-    <framework src="com.google.firebase:firebase-ads:11.0.1" />
+    <framework src="com.google.firebase:firebase-ads:11.0.2" />
 
     <source-file src="src/android/FirebaseAdmobPlugin.java" target-dir="src/com/jernung/plugins/firebase/admob" />
 
