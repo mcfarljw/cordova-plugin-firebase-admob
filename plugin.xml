@@ -47,6 +47,11 @@
 			</feature>
 		</config-file>
 
+    <framework src="CoreMotion.framework" />
+    <framework src="CoreTelephony.framework" />
+    <framework src="GLKit.framework" />
+    <framework src="MediaPlayer.framework" />
+    <framework src="MessageUI.framework" />
     <framework src="src/ios/Firebase/GoogleMobileAds.framework" custom="true" />
 
   </platform>
