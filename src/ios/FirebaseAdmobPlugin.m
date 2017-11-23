@@ -4,14 +4,29 @@
 
 @implementation FirebaseAdmobPlugin
 
-- (void)showAd:(CDVInvokedUrlCommand*)command
+- (void)addTestDevice:(CDVInvokedUrlCommand*)command
 {
-    CDVPluginResult* pluginResult = nil;
 
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:
-                    [[FIRInstanceID instanceID] token]];
+}
 
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+- (void)getTestDevices:(CDVInvokedUrlCommand*)command
+{
+
+}
+
+- (void)requestInterstitial:(CDVInvokedUrlCommand*)command
+{
+
+}
+
+- (void)setInterstitialAdUnitId:(CDVInvokedUrlCommand*)command
+{
+
+}
+
+- (void)showInterstitial:(CDVInvokedUrlCommand*)command
+{
+
 }
 
 @end
