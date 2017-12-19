@@ -32,7 +32,7 @@
       <uses-permission android:name="android.permission.WAKE_LOCK" />
     </config-file>
 
-    <framework src="com.google.firebase:firebase-ads:11.6.2" />
+    <framework src="com.google.firebase:firebase-ads:11.8.0" />
 
     <source-file src="src/android/FirebaseAdmobPlugin.java" target-dir="src/com/jernung/plugins/firebase/admob" />
 
@@ -46,6 +46,10 @@
 				<param name="onload" value="true" />
 			</feature>
 		</config-file>
+
+    <header-file src="src/ios/Firebase/Firebase.h" />
+    <header-file src="src/ios/FirebaseAdmobPlugin.h" />
+    <source-file src="src/ios/FirebaseAdmobPlugin.m" />
 
     <framework src="CoreMotion.framework" />
     <framework src="CoreTelephony.framework" />
